@@ -5,6 +5,7 @@
 name: Update release branch
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
