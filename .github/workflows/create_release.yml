@@ -33,7 +33,7 @@ jobs:
           git fetch origin
           if git show-ref --quiet refs/heads/release; then
             echo "Release branch exists, checking it out"
-            git checkout release
+            git switch release
           else
             echo "Release branch does not exist, creating it"
             git switch --orphan release
@@ -41,9 +41,9 @@ jobs:
 
       - name: Move Files to Release Branch
         run: |
-          git checkout origin/master LICENSE
-          git checkout origin/master README.md
-          git checkout origin/master .gitignore
+          git checkout master LICENSE
+          git checkout master README.md
+          git checkout master .gitignore
           find ./release -name "*.sh" -exec mv {} ./ \;
           rm -rf ./release
 
