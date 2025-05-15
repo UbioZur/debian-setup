@@ -34,6 +34,7 @@ jobs:
           if git show-ref --quiet refs/heads/release; then
             echo "Release branch exists, checking it out"
             git switch release
+            git pull origin
           else
             echo "Release branch does not exist, creating it"
             git switch --orphan release
