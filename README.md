@@ -11,7 +11,7 @@ The `headless.sh` script setup the Debian system with base applications and conf
 ### Install Headless System
 
 ```bash
-./headless.sh
+wget -q -O - https://github.com/ubiozur/debian-setup/releases/latest/download/headless.sh | bash
 ```
 
 ### What It Does
@@ -33,7 +33,7 @@ It will allow `main` `contrib` `non-free` `non-free-firmware`.
 ### Install Testing Repositories
 
 ```bash
-./testing.sh
+wget -q -O - https://github.com/ubiozur/debian-setup/releases/latest/download/testing.sh | bash
 ```
 
 ### What It Does
