@@ -7,8 +7,9 @@ name: Update release branch
 on:
   push:
     branches:
-      - main
       - master
+    paths:
+      - '*.sh'
 
 jobs:
   build_and_release:
