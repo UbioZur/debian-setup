@@ -1,0 +1,54 @@
+##  ~ UbioZur - https://github.com/UbioZur ~  ##
+
+# Generate the script files and push them to the release branch.
+
+name: Update release branch
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '*.sh'
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Merge Script
+        run: ./ci/merge.sh
+        if: success()
+
+      - name: Set up Git
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+
+      - name: Create or Checkout Release Branch
+        run: |
+          git fetch origin
+          if git ls-remote --exit-code --heads origin release; then
+            echo "Release branch exists, checking it out"
+            git switch release
+            git pull origin
+          else
+            echo "Release branch does not exist, creating it"
+            git switch --orphan release
+          fi
+
+      - name: Move Files to Release Branch
+        run: |
+          git checkout master LICENSE
+          git checkout master README.md
+          git checkout master .gitignore
+          find ./release -name "*.sh" -exec mv {} ./ \;
+          rm -rf ./release
+
+      - name: Commit Release Files
+        run: |
+          git add .
+          git commit -m "Add release files"
+          git push origin release
