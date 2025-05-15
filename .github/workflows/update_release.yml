@@ -54,10 +54,14 @@ jobs:
           git commit -m "Add release files"
           git push origin release
 
+      - name: Get Current Timestamp
+        id: timestamp
+        run: echo "::set-output name=now::$(date +'%Y%m%d.%H%M')"
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ format('{0}{1}{2}-{3}{4}', github.event.inputs.release_date, github.event.inputs.release_month, github.event.inputs.release_year, github.event.inputs.release_hour, github.event.inputs.release_minute) }}
+          tag_name: ${{ steps.timestamp.outputs.now }}
           files: ./*.sh
           draft: false
           prerelease: false
