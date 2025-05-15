@@ -2,7 +2,7 @@
 
 # Generate the script files and set them as a release on github.
 
-name: Create and Publish Release
+name: Update release branch
 
 on:
   push:
@@ -47,3 +47,17 @@ jobs:
           find ./release -name "*.sh" -exec mv {} ./ \;
           rm -rf ./release
 
+      - name: Commit Release Files
+        run: |
+          git add .
+          git commit -m "Add release files"
+          git push origin release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.run_number }}.${{ github.run_attempt }}
+          files: *.sh
+          draft: false
+          prerelease: false
+          make_latest: true
