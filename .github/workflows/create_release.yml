@@ -57,7 +57,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.run_number }}.${{ github.run_attempt }}
-          files: *.sh
+          files: ./*.sh
           draft: false
           prerelease: false
           make_latest: true
