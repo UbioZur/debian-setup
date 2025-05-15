@@ -53,3 +53,13 @@ jobs:
           git add .
           git commit -m "Add release files"
           git push origin release
+
+      - name: Trigger create_release Workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDispatchEvent({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              event_type: 'create_release-trigger',
+            });

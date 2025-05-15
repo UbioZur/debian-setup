@@ -6,11 +6,8 @@ name: Create Release
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - release
-    paths:
-      - '*.sh'
+  repository_dispatch:
+    types: [create_release-trigger]
 
 jobs:
   build_and_release:
@@ -18,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: release
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
