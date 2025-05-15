@@ -57,7 +57,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: $(date +'%Y%m%d-%H%M')
+          tag_name: ${{ format('{0}{1}{2}-{3}{4}', github.event.inputs.release_date, github.event.inputs.release_month, github.event.inputs.release_year, github.event.inputs.release_hour, github.event.inputs.release_minute) }}
           files: ./*.sh
           draft: false
           prerelease: false
