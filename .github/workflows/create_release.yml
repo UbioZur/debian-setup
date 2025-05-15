@@ -16,8 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Run Merge Script
         run: ./ci/merge.sh
@@ -31,7 +29,7 @@ jobs:
       - name: Create or Checkout Release Branch
         run: |
           git fetch origin
-          if git show-ref --quiet refs/heads/release; then
+          if git ls-remote --exit-code --heads origin release; then
             echo "Release branch exists, checking it out"
             git switch release
             git pull origin
