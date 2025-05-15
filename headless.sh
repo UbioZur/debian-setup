@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-##  ~ UbioZur - https://github.com/UbioZur ~  ##
+# ##  ~ UbioZur - https://github.com/UbioZur ~  ##
 
 # Setup and bootstrap my minimal debian install
 # License: MIT | https://github.com/UbioZur/debian-setup/raw/main/LICENSE
