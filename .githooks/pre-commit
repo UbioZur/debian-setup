@@ -1,0 +1,28 @@
+#!/usr/bin/sh
+## ~  UbioZur - https://github.com/UbioZur  ~ ##
+
+## Add the hook to the git repo: git config --local core.hooksPath .githooks
+
+# If any command fails, exit immediately with that command's exit status
+set -eo
+
+# Redirect output to stderr.
+exec 1>&2
+
+ERROR=0
+
+
+# Exit the script with an error message!
+die() {
+    echo "ERROR: ${1-"We have encountered an error!"}"
+    exit "${2-1}"
+}
+
+# Check that a command exist
+check_command_exist() {
+    command -v "${1}" > /dev/null || die "Program ${1} is required!";
+}
+
+
+# Exit with the proper return code (0 if success)
+exit $ERROR
