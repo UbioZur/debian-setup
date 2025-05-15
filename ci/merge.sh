@@ -33,13 +33,14 @@ generate() {
     for script in *.sh; do
         local tmpFile=$(mktemp -q)
         local err="false";
-        taskStart "Processing script \e[36m${script}\e[0m"
+        log "\e[33m\u2699  Processing script \e[36m${script}\e[0m"
         while IFS= read -r line; do
             if [[ "$line" =~ ^## ]]; then continue; fi
             if [[ "$line" =~ ^source[[:space:]]+([^[:space:]]+)$ ]] || [[ "$line" =~ ^\.[[:space:]]+([^[:space:]]+)$ ]]; then
                 sourced_file="${BASH_REMATCH[1]}"
                 if [[ ! -f "$sourced_file" ]]; then
                     err="true"
+                    logError "\e[31m\u2717  Could not process script ${script}"
                     break
                 fi
                 cat "$sourced_file" | grep -v '^##'
@@ -48,19 +49,18 @@ generate() {
             echo "$line"
         done < "$script" > "$tmpFile"
         if [[ $err == "true" ]]; then
-            taskFail "Could not process script ${script}"
             continue
         fi
         local dst="${releaseFolder}${script}"
         mv "$tmpFile" "$dst"
         chmod u+x "$dst"
-        taskOK "Script \e[36m${script}\e[0m processed".
+        log "\e[32m\u2714  Script \e[36m${script}\e[0m\e[32m merged\e[0m".
         processed=$((processed+1))
     done
-    log "Processed ${processed} scripts"
+    log "Scripts handled: ${processed}"
 
     [[ "$processed" != "$scriptAmount" ]] && die "Couldn't make the release!" 1
+    exit 0
 }
 
 generate
-exit 0
