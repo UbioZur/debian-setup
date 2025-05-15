@@ -433,7 +433,7 @@ cleanTempFolder() {
 
 # Constants
 readonly SCRIPT_NAME=$(basename "$0")
-readonly SCRIPT_TAG_LINE="Setup Personal Debian Desktop System"
+readonly SCRIPT_TAG_LINE="Setup Personal Debian Workstation System"
 
 # Cleanup Function
 cleanup() {
