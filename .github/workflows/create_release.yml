@@ -1,0 +1,41 @@
+##  ~ UbioZur - https://github.com/UbioZur ~  ##
+
+# Generate the script files and set them as a release on github.
+
+name: Create and Publish Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Merge Script
+        run: ./ci/merge.sh
+        if: success()
+
+      - name: Set up Git
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+
+      - name: Create or Checkout Release Branch
+        run: |
+          git fetch origin
+          if git show-ref --quiet refs/heads/release; then
+            echo "Release branch exists, checking it out"
+            git checkout release
+          else
+            echo "Release branch does not exist, creating it"
+            git checkout --orphan release
+            git commit --allow-empty -m "Initial commit for release branch" # create an initial commit
+          fi
