@@ -36,6 +36,14 @@ jobs:
             git checkout release
           else
             echo "Release branch does not exist, creating it"
-            git checkout --orphan release
-            git commit --allow-empty -m "Initial commit for release branch" # create an initial commit
+            git switch --orphan release
           fi
+
+      - name: Move Files to Release Branch
+        run: |
+          git checkout origin/master LICENSE
+          git checkout origin/master README.md
+          git checkout origin/master .gitignore
+          find ./release -name "*.sh" -exec mv {} ./ \;
+          rm -rf ./release
+
